@@ -1,0 +1,47 @@
+# Dataset / Model parameters
+data_dir: ./data/cifar10-dvs
+dataset: cifar10-dvs
+pretrained: False
+num_classes: 10
+num_heads: 16
+img_size: 128
+crop_pct: 1.0
+scale:
+    - 1.0
+    - 1.0
+ratio: [1.0, 1.0]
+color_jitter: 0.
+interpolation: bicubic
+train_interpolation: bicubic
+model: "hybrid_former"
+use_conv_as_linear: True
+attn_mode: "hybrid"
+pooling_stat: "1111"
+in_channels: 2
+time_steps: 16
+layer: 8
+dim: 512
+mlp_ratio: 4
+hflip: 0.5
+
+# Model Exponential Moving Average
+model-ema: False
+model-ema-decay: 0.9998
+
+# Misc
+seed: 42
+amp: True
+channels-last: False
+batch_size: 16
+val_batch_size: 64
+lr: 1e-3
+min_lr: 2e-5
+sched: cosine
+weight_decay: 6e-2
+epochs: 200
+cooldown_epochs: 10
+warmup_epochs: 10
+warmup_lr: 1e-5
+opt: adamw
+smoothing: 0.1
+workers: 8

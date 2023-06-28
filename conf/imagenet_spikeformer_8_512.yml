@@ -1,0 +1,58 @@
+# Dataset / Model parameters
+data_dir: /raid/ligq/imagenet1-k
+dataset: imagenet
+pretrained: False
+num_classes: 1000
+num_heads: 8   # TODO DVS 16 imagenet 8
+img_size: 224  # 输入图像分辨率
+mean:
+    - 0.485
+    - 0.456
+    - 0.406
+std:
+    - 0.229
+    - 0.224
+    - 0.225
+crop_pct: 0.95 # TODO 验证集和测试集 360 * 0.95
+scale:         # TODO 224, 224 ==> 45, 45 ==> 224, 224, 0.2~1.0 cifar 10 0.1 ~ 1.0 cifar10dvs 0.08~1.0 imagenet
+    - 0.2
+    - 1.0
+interpolation: bicubic
+train_interpolation: bicubic
+pooling_stat: "1111"  # TODO conv-bn-lif-pool 4 1111 0011
+use_conv_as_linear: true
+time_steps: 4  # TODO
+layer: 8       # 网络层数
+dim: 512       # 网络通道数
+mlp-ratio: 4   # c - 4*c - c
+
+# Augmentation & regularization parameters
+aa: rand-m7-mstd0.5-inc1   # TODO rangaugment 5 7 9 m7->70% mstd0.5/0.4 inc1
+mixup: 0.2                 # mixup 20% 0.2 + 0.8 * self
+mixup_off_epoch: 0         # 那一轮开始结束 mixup 0
+mixup_prob: 0.75           # mixup 75%
+mixup_mode: batch          
+mixup_switch_prob: 0.5     # iter mixup / cutmix
+cutmix: 1.0                # cutmix iter
+
+# Model Exponential Moving Average
+model-ema: False           # TODO(目前我们SNN用sj就不能用EMA)，reset param，ALIF
+model-ema-decay: 0.9998    # EMA: 0.9998 * P + 0.0002 * (P_{-1})
+
+# Misc
+seed: 42
+amp: True              # 混合精度，FFT 不支持 amp ！刷精度
+channels-last: False
+batch_size: 36
+val_batch_size: 36
+lr: 1e-3  # bigger     # gesture 1e-4, cifar10dvs 1e-2 cifar10/100 1e-3 3e-4
+min_lr: 2e-5
+sched: cosine          # 余弦退火
+weight_decay: 1e-2     # SNN 尽量开大 6e-2 1e-4 过拟合
+epochs: 300
+cooldown_epochs: 10
+warmup_epochs: 20      # warmup
+warmup_lr: 1e-5
+opt: lamb              # 优化器 lamb adamw fusedadam "timm"
+smoothing: 0.1
+workers: 8

@@ -1,0 +1,13 @@
+output/
+data/
+__pycache__/
+*.sh
+*.out
+nni*
+*mae.py
+test_model.py
+pretrain.py
+*.tar
+*.npy
+*.png
+*.zip
